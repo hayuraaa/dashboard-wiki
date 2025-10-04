@@ -1,0 +1,55 @@
+<?php
+
+return [
+    'welcome' => 'Selamat Datang',
+    'dashboard' => 'Dasbor',
+    'users' => 'Pengguna',
+    'roles' => 'Peran',
+    'permissions' => 'Izin',
+    'activity_log' => 'Log Aktivitas',
+    'settings' => 'Pengaturan',
+    'logout' => 'Keluar',
+    'login' => 'Masuk',
+    'register' => 'Daftar',
+
+    'all_users' => 'Semua Pengguna',
+    'all_roles' => 'Semua Peran',
+    'all_permissions' => 'Semua Izin',
+
+    'manage_roles' => 'Kelola peran sistem dan izinnya',
+    'manage_users' => 'Kelola pengguna sistem dan izinnya',
+    'manage_permissions' => 'Kelola izin sistem (Hanya Admin Super)',
+    'total_users' => 'Total Pengguna',
+    'total_roles' => 'Total Peran',
+    'active_users' => 'Pengguna Aktif',
+    'with_roles' => 'Dengan Peran',
+    'users_list' => 'Daftar Pengguna',
+    'roles_list' => 'Daftar Peran',
+    'permissions_list' => 'Daftar Izin',
+    'create_user' => 'Buat Pengguna',
+    'create_role' => 'Buat Peran',
+
+    'name' => 'Nama',
+    'password' => 'Kata Sandi',
+    'email' => 'Surel',
+    'created' => 'Dibuat',
+    'actions' => 'Aksi',
+    'view' => 'Lihat',
+    'edit' => 'Edit',
+    'delete' => 'Hapus',
+    'confirm' => 'Konfirmasi',
+    'cancel' => 'Batal',
+    'update' => 'Perbarui',
+
+    'add_new_user' => 'Tambah Pengguna Baru',
+    'add_new_role' => 'Tambah Peran Baru',
+    'create_new_user' => 'Buat Pengguna Baru',
+    'create_new_role' => 'Buat Peran Baru',
+    'user_information' => 'Informasi Pengguna',
+    'role_information' => 'Informasi Peran',
+    'fill_details' => 'Isi detail untuk pengguna baru',
+    'fill_role' => 'Buat peran baru dengan izin khusus',
+    'blank_confirm' => 'Leave blank to keep current password',
+
+
+];
