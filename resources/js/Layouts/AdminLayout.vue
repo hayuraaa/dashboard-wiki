@@ -142,6 +142,37 @@ onUnmounted(() => {
 
                     </div>
 
+                    <!-- Contact Management Section -->
+                    <div class="pt-6">
+                        <p v-if="showingSidebar"
+                            class="px-4 text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">
+                            Kontak Management
+                        </p>
+                        <div class="space-y-1">
+                            <Link v-if="can('view contact submissions')" href="/contact-submissions"
+                                @click="isMobile ? toggleSidebar() : null" :class="[
+                                    'group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 border',
+                                    $page.url.startsWith('/contact-submissions')
+                                        ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-400 border-blue-100 dark:border-blue-800'
+                                        : 'text-slate-600 dark:text-slate-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20 hover:text-blue-700 dark:hover:text-blue-400 border-transparent hover:border-blue-100 dark:hover:border-blue-800'
+                                ]" :title="!showingSidebar ? 'Pesan Kontak' : ''">
+                            <font-awesome-icon icon="inbox" class="w-5 h-5 mr-3 flex-shrink-0" />
+                            <span v-if="showingSidebar">Pesan Kontak</span>
+                            </Link>
+
+                            <Link v-if="can('view contact settings')" href="/contact-settings"
+                                @click="isMobile ? toggleSidebar() : null" :class="[
+                                    'group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 border',
+                                    $page.url.startsWith('/contact-settings')
+                                        ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-400 border-blue-100 dark:border-blue-800'
+                                        : 'text-slate-600 dark:text-slate-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20 hover:text-blue-700 dark:hover:text-blue-400 border-transparent hover:border-blue-100 dark:hover:border-blue-800'
+                                ]" :title="!showingSidebar ? 'Pengaturan Kontak' : ''">
+                            <font-awesome-icon icon="envelope-open-text" class="w-5 h-5 mr-3 flex-shrink-0" />
+                            <span v-if="showingSidebar">Pengaturan Kontak</span>
+                            </Link>
+                        </div>
+                    </div>
+
                     <!-- Settings Section -->
                     <div class="pt-6">
                         <p v-if="showingSidebar"

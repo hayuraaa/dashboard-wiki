@@ -10,9 +10,17 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\KomunitasController;
+use App\Http\Controllers\ContactSettingController;
+use App\Http\Controllers\ContactSubmissionAdminController;
+use App\Http\Controllers\PublicContactController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+
+// Public Contact Form Page
+Route::get('/contact-forms', [PublicContactController::class, 'index'])->name('contact.forms');
+Route::post('/contact-forms/submit', [PublicContactController::class, 'store'])->name('contact.submit');
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +74,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/list-komunitas/{komunita}/edit', [KomunitasController::class, 'edit'])->name('komunitas.edit');
     Route::put('/list-komunitas/{komunita}', [KomunitasController::class, 'update'])->name('komunitas.update');
     Route::delete('/list-komunitas/{komunita}', [KomunitasController::class, 'destroy'])->name('komunitas.destroy');
+
+    // Contact Settings Management
+    Route::get('/contact-settings', [ContactSettingController::class, 'index'])->name('contact-settings.index');
+    Route::get('/contact-settings/{contactSetting}/edit', [ContactSettingController::class, 'edit'])->name('contact-settings.edit');
+    Route::put('/contact-settings/{contactSetting}', [ContactSettingController::class, 'update'])->name('contact-settings.update');
+
+    // Contact Submissions Management
+    Route::get('/contact-submissions', [ContactSubmissionAdminController::class, 'index'])->name('contact-submissions.index');
+    Route::get('/contact-submissions/{contactSubmission}', [ContactSubmissionAdminController::class, 'show'])->name('contact-submissions.show');
+    Route::patch('/contact-submissions/{contactSubmission}/status', [ContactSubmissionAdminController::class, 'updateStatus'])->name('contact-submissions.update-status');
+    Route::delete('/contact-submissions/{contactSubmission}', [ContactSubmissionAdminController::class, 'destroy'])->name('contact-submissions.destroy');
 
 });
 
