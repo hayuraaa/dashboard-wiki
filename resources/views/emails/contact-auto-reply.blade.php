@@ -4,40 +4,67 @@
     <meta charset="utf-8">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
         }
         .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
+            max-width: 650px;
+            margin: 40px auto;
+            background: #ffffff;
+            border: 1px solid #ddd;
         }
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 8px 8px 0 0;
+            padding: 30px;
+            border-bottom: 3px solid #2c3e50;
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
         }
         .content {
-            background: #f9fafb;
-            padding: 20px;
-            border: 1px solid #e5e7eb;
+            padding: 30px;
+        }
+        .content p {
+            margin: 0 0 15px 0;
+        }
+        .footer {
+            padding: 20px 30px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            font-size: 12px;
+            color: #6c757d;
+        }
+        .signature {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h2>✅ Pesan Anda Telah Diterima</h2>
+            <h1 class="logo">Wikimedia Indonesia</h1>
         </div>
         
         <div class="content">
-            <p>Halo <strong>{{ $submission->name }}</strong>,</p>
+            <p>Kepada Yth. <strong>{{ $submission->name }}</strong>,</p>
             
             <p>{{ $autoReplyMessage }}</p>
             
-            <p><strong>Wikimedia Indonesia</strong></p>
+            <div class="signature">
+                <p><strong>Wikimedia Indonesia</strong></p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Email ini dikirim secara otomatis, mohon tidak membalas email ini.</p>
         </div>
     </div>
 </body>

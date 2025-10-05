@@ -76,11 +76,6 @@ const portalLinks = [
                 <!-- Wikimedia Tagline -->
                 <div class="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700 rounded-2xl p-6 md:p-8 text-white shadow-lg">
                     <div class="flex items-start gap-4">
-                        <div class="w-12 h-12 md:w-16 md:h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6 md:w-8 md:h-8" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 2.18l8 4V17c0 4.52-3.18 8.77-8 9.92-4.82-1.15-8-5.4-8-9.92V8.18l8-4z"/>
-                            </svg>
-                        </div>
                         <div class="flex-1">
                             <h3 class="text-xl md:text-2xl font-bold mb-2">Wikimedia Indonesia</h3>
                             <p class="text-sm md:text-base text-white/90 leading-relaxed italic">
