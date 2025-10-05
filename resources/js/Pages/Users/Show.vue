@@ -37,63 +37,6 @@ const deleteUser = (id) => {
             </nav>
         </div>
 
-        <!-- User Profile Header -->
-        <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
-            <div class="bg-gradient-to-r from-blue-600 via-purple-600 to-purple-700 px-6 py-8">
-                <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-                    <div class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center border border-white/30 overflow-hidden">
-                        <img v-if="user.profile?.photo" 
-                            :src="`/storage/${user.profile.photo}`" 
-                            :alt="user.name" 
-                            class="w-full h-full object-cover">
-                        <span v-else class="text-white font-bold text-2xl">{{ user.name.charAt(0).toUpperCase() }}</span>
-                    </div>
-                    <div class="flex-1">
-                        <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">{{ user.name }}</h2>
-                        <p class="text-blue-100 text-lg">{{ user.email }}</p>
-                        <div class="flex items-center mt-3">
-                            <span v-if="user.email_verified_at" 
-                                  class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 border border-green-200 dark:border-green-800">
-                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                </svg>
-                                Verified Account
-                            </span>
-                            <span v-else 
-                                  class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-800">
-                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                                </svg>
-                                Pending Verification
-                            </span>
-                        </div>
-                    </div>
-                    <div class="flex flex-col sm:flex-row gap-2">
-                        <Link 
-                            v-if="hasRole('super-admin')"
-                            :href="`/users/${user.id}/edit`" 
-                            class="inline-flex items-center justify-center px-4 py-2.5 bg-white/20 backdrop-blur-sm text-white font-medium text-sm rounded-xl hover:bg-white/30 transition-all duration-200 border border-white/30"
-                        >
-                            <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                            </svg>
-                            Edit {{ t('messages.users') }}
-                        </Link>
-                        <button 
-                            v-if="hasRole('super-admin')"
-                            @click="deleteUser(user.id)" 
-                            class="inline-flex items-center justify-center px-4 py-2.5 bg-red-500/80 backdrop-blur-sm text-white font-medium text-sm rounded-xl hover:bg-red-600/80 transition-all duration-200 border border-red-400/50"
-                        >
-                            <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
-                            {{ t('messages.delete') }}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- User Details Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <!-- User Information -->

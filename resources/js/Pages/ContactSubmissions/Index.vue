@@ -2,6 +2,7 @@
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { usePermissions } from '@/composables/usePermissions';
+import { useTranslations } from '@/composables/useTranslations';
 import { ref, computed } from 'vue';
 
 const props = defineProps({
@@ -11,9 +12,10 @@ const props = defineProps({
 });
 
 const { can } = usePermissions();
+const { t } = useTranslations();
 
 const deleteSubmission = (id) => {
-    if (confirm('Apakah Anda yakin ingin menghapus pesan ini?')) {
+    if (confirm(t('messages.delete_message_confirm'))) {
         router.delete(`/contact-submissions/${id}`);
     }
 };
@@ -47,17 +49,17 @@ const filterByWebsite = (website) => {
 </script>
 
 <template>
-    <Head title="Pesan Kontak" />
+    <Head :title="t('messages.contact_messages')" />
 
     <AdminLayout>
-        <template #title>Pesan Kontak</template>
+        <template #title>{{ t('messages.contact_messages') }}</template>
 
         <!-- Header Section -->
         <div class="mb-6 md:mb-8">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h2 class="text-xl md:text-2xl font-bold text-slate-800 dark:text-white">Pesan Kontak Masuk</h2>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Kelola pesan kontak dari semua portal</p>
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-800 dark:text-white">{{ t('messages.incoming_messages') }}</h2>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">{{ t('messages.manage_contact_messages') }}</p>
                 </div>
             </div>
         </div>
@@ -72,7 +74,7 @@ const filterByWebsite = (website) => {
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Total Pesan</p>
+                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">{{ t('messages.total_messages') }}</p>
                         <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ stats.total }}</p>
                     </div>
                 </div>
@@ -86,7 +88,7 @@ const filterByWebsite = (website) => {
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Belum Dibaca</p>
+                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">{{ t('messages.unread') }}</p>
                         <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ stats.unread }}</p>
                     </div>
                 </div>
@@ -101,7 +103,7 @@ const filterByWebsite = (website) => {
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Sudah Dibaca</p>
+                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">{{ t('messages.already_read') }}</p>
                         <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ stats.read }}</p>
                     </div>
                 </div>
@@ -115,7 +117,7 @@ const filterByWebsite = (website) => {
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Sudah Dibalas</p>
+                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">{{ t('messages.already_replied') }}</p>
                         <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ stats.replied }}</p>
                     </div>
                 </div>
@@ -125,39 +127,39 @@ const filterByWebsite = (website) => {
         <!-- Filters -->
         <div class="mb-6 flex flex-col sm:flex-row gap-3">
             <select @change="filterByStatus($event.target.value)" :value="filters.status"
-                class="px-4 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
-                <option value="all">Semua Status</option>
-                <option value="unread">Belum Dibaca</option>
-                <option value="read">Sudah Dibaca</option>
-                <option value="replied">Sudah Dibalas</option>
+                class="w-full sm:w-48 px-4 py-2.5 pr-10 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-all duration-200 appearance-none bg-no-repeat bg-right" style="background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27 fill=%27none%27%3e%3cpath d=%27M7 7l3 3 3-3%27 stroke=%27%239ca3af%27 stroke-width=%271.5%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3e%3c/svg%3e'); background-position: right 0.75rem center; background-size: 1.25rem;">
+                <option value="all">{{ t('messages.all_status') }}</option>
+                <option value="unread">{{ t('messages.unread') }}</option>
+                <option value="read">{{ t('messages.already_read') }}</option>
+                <option value="replied">{{ t('messages.already_replied') }}</option>
             </select>
 
             <select @change="filterByWebsite($event.target.value)" :value="filters.website"
-                class="px-4 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
-                <option value="all">Semua Portal</option>
-                <option value="pendidikan">Pendidikan</option>
-                <option value="komunitas">Komunitas</option>
-                <option value="kebudayaan">Kebudayaan</option>
-                <option value="datatek">DataTek</option>
+                class="w-full sm:w-48 px-4 py-2.5 pr-10 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-all duration-200 appearance-none bg-no-repeat bg-right" style="background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27 fill=%27none%27%3e%3cpath d=%27M7 7l3 3 3-3%27 stroke=%27%239ca3af%27 stroke-width=%271.5%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3e%3c/svg%3e'); background-position: right 0.75rem center; background-size: 1.25rem;">
+                <option value="all">{{ t('messages.all_portals') }}</option>
+                <option value="pendidikan">{{ t('messages.pendidikan') }}</option>
+                <option value="komunitas">{{ t('messages.komunitas') }}</option>
+                <option value="kebudayaan">{{ t('messages.kebudayaan') }}</option>
+                <option value="datatek">{{ t('messages.datatek') }}</option>
             </select>
         </div>
 
         <!-- Submissions Table -->
         <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
-                <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Daftar Pesan</h3>
+                <h3 class="text-lg font-semibold text-slate-800 dark:text-white">{{ t('messages.message_list') }}</h3>
             </div>
 
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                     <thead class="bg-slate-50 dark:bg-slate-800/50">
                         <tr>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Pengirim</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Subject</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Portal</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Tanggal</th>
-                            <th class="px-6 py-4 text-center text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Aksi</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">{{ t('messages.sender') }}</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">{{ t('messages.subject') }}</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">{{ t('messages.portal') }}</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">{{ t('messages.status') }}</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">{{ t('messages.date') }}</th>
+                            <th class="px-6 py-4 text-center text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">{{ t('messages.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white dark:bg-slate-800 divide-y divide-slate-200 dark:divide-slate-700">
@@ -173,12 +175,12 @@ const filterByWebsite = (website) => {
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span :class="getBadgeColor(item.website_source)" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium capitalize">
-                                    {{ item.website_source }}
+                                    {{ t(`messages.${item.website_source}`) }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span :class="getStatusBadge(item.status)" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium capitalize">
-                                    {{ item.status === 'unread' ? 'Belum Dibaca' : item.status === 'read' ? 'Sudah Dibaca' : 'Sudah Dibalas' }}
+                                    {{ item.status === 'unread' ? t('messages.unread') : item.status === 'read' ? t('messages.already_read') : t('messages.already_replied') }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
@@ -196,7 +198,7 @@ const filterByWebsite = (website) => {
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                         </svg>
-                                        Lihat
+                                        {{ t('messages.view') }}
                                     </Link>
 
                                     <button v-if="can('delete contact submissions')" @click="deleteSubmission(item.id)"
@@ -204,7 +206,7 @@ const filterByWebsite = (website) => {
                                         <svg class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                         </svg>
-                                        Hapus
+                                        {{ t('messages.delete') }}
                                     </button>
                                 </div>
                             </td>
@@ -216,8 +218,8 @@ const filterByWebsite = (website) => {
                     <svg class="w-16 h-16 text-slate-400 dark:text-slate-600 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                    <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-2">Belum ada pesan kontak</h3>
-                    <p class="text-slate-500 dark:text-slate-400">Pesan kontak dari portal akan muncul di sini</p>
+                    <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-2">{{ t('messages.no_messages_yet') }}</h3>
+                    <p class="text-slate-500 dark:text-slate-400">{{ t('messages.messages_will_appear') }}</p>
                 </div>
             </div>
         </div>

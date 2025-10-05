@@ -2,12 +2,14 @@
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { usePermissions } from '@/composables/usePermissions';
+import { useTranslations } from '@/composables/useTranslations';
 
 const props = defineProps({
     settings: Array,
 });
 
 const { can } = usePermissions();
+const { t } = useTranslations();
 
 const getBadgeColor = (source) => {
     const colors = {
@@ -21,17 +23,17 @@ const getBadgeColor = (source) => {
 </script>
 
 <template>
-    <Head title="Pengaturan Kontak" />
+    <Head :title="t('messages.contact_settings')" />
 
     <AdminLayout>
-        <template #title>Pengaturan Kontak</template>
+        <template #title>{{ t('messages.contact_settings') }}</template>
 
         <!-- Header Section -->
         <div class="mb-6 md:mb-8">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h2 class="text-xl md:text-2xl font-bold text-slate-800 dark:text-white">Pengaturan Email Kontak</h2>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Kelola pengaturan email untuk setiap portal website</p>
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-800 dark:text-white">{{ t('messages.contact_email_settings') }}</h2>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">{{ t('messages.manage_portal_emails') }}</p>
                 </div>
             </div>
         </div>
@@ -39,18 +41,18 @@ const getBadgeColor = (source) => {
         <!-- Settings Table -->
         <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
-                <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Pengaturan Portal</h3>
+                <h3 class="text-lg font-semibold text-slate-800 dark:text-white">{{ t('messages.portal_settings') }}</h3>
             </div>
 
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                     <thead class="bg-slate-50 dark:bg-slate-800/50">
                         <tr>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Portal</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Email Penerima</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">CC Emails</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-4 text-center text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Aksi</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">{{ t('messages.portal') }}</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">{{ t('messages.recipient_email') }}</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">{{ t('messages.cc_emails') }}</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">{{ t('messages.status') }}</th>
+                            <th class="px-6 py-4 text-center text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">{{ t('messages.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white dark:bg-slate-800 divide-y divide-slate-200 dark:divide-slate-700">
@@ -70,7 +72,7 @@ const getBadgeColor = (source) => {
                                         </svg>
                                     </div>
                                     <div>
-                                        <div class="text-sm font-medium text-slate-900 dark:text-white capitalize">{{ setting.website_source }}</div>
+                                        <div class="text-sm font-medium text-slate-900 dark:text-white capitalize">{{ t(`messages.${setting.website_source}`) }}</div>
                                         <div class="text-sm text-slate-500 dark:text-slate-400">{{ setting.website_source }}.wikimedia.or.id</div>
                                     </div>
                                 </div>
@@ -85,24 +87,24 @@ const getBadgeColor = (source) => {
                                         {{ email }}
                                     </span>
                                 </div>
-                                <span v-else class="text-xs text-slate-400 dark:text-slate-500 italic">Tidak ada CC</span>
+                                <span v-else class="text-xs text-slate-400 dark:text-slate-500 italic">{{ t('messages.no_cc') }}</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="space-y-1">
                                     <span v-if="setting.is_active" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
                                         <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1.5"></span>
-                                        Email Aktif
+                                        {{ t('messages.email_active') }}
                                     </span>
                                     <span v-else class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-900/30 text-slate-800 dark:text-slate-300">
                                         <span class="w-1.5 h-1.5 bg-slate-500 rounded-full mr-1.5"></span>
-                                        Email Nonaktif
+                                        {{ t('messages.email_inactive') }}
                                     </span>
                                     <br>
                                     <span v-if="setting.send_auto_reply" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300">
                                         <svg class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76" />
                                         </svg>
-                                        Auto Reply
+                                        {{ t('messages.auto_reply') }}
                                     </span>
                                 </div>
                             </td>
@@ -112,7 +114,7 @@ const getBadgeColor = (source) => {
                                     <svg class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                     </svg>
-                                    Edit
+                                    {{ t('messages.edit') }}
                                 </Link>
                             </td>
                         </tr>

@@ -2,6 +2,7 @@
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { usePermissions } from '@/composables/usePermissions';
+import { useTranslations } from '@/composables/useTranslations';
 import { ref, computed, onMounted } from 'vue';
 
 const props = defineProps({
@@ -9,13 +10,14 @@ const props = defineProps({
 });
 
 const { can } = usePermissions();
+const { t } = useTranslations();
 const viewMode = ref('table');
 const mapContainer = ref(null);
 let map = null;
 const markers = [];
 
 const deleteKomunitas = (id) => {
-    if (confirm('Apakah Anda yakin ingin menghapus komunitas ini?')) {
+    if (confirm(t('messages.delete_community_confirm'))) {
         router.delete(`/list-komunitas/${id}`);
     }
 };
@@ -60,8 +62,8 @@ const initMap = () => {
         minZoom: 5,
         maxZoom: 18,
         maxBounds: [
-            [-11.5, 95],   // Southwest coordinates (batas selatan-barat Indonesia)
-            [6.5, 141]     // Northeast coordinates (batas utara-timur Indonesia)
+            [-11.5, 95],
+            [6.5, 141]
         ],
         maxBoundsViscosity: 1.0
     }).setView([-2.5, 120.5], 5.2);
@@ -110,7 +112,7 @@ const initMap = () => {
                         </div>
                     </div>
                     ${k.alamat ? `<p class="text-xs text-gray-500 mt-1">${k.alamat}</p>` : ''}
-                    <a href="/list-komunitas/${k.id}" class="text-xs text-blue-600 hover:underline mt-2 inline-block">Lihat Detail →</a>
+                    <a href="/list-komunitas/${k.id}" class="text-xs text-blue-600 hover:underline mt-2 inline-block">${t('messages.view_detail')} →</a>
                 </div>
             `);
         
@@ -145,24 +147,24 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head title="List Komunitas" />
+    <Head :title="t('messages.community_list')" />
 
     <AdminLayout>
-        <template #title>Manajemen Komunitas</template>
+        <template #title>{{ t('messages.community_management') }}</template>
 
         <!-- Header Section -->
         <div class="mb-6 md:mb-8">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h2 class="text-xl md:text-2xl font-bold text-slate-800 dark:text-white">List Komunitas</h2>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Kelola data komunitas Wikimedia Indonesia</p>
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-800 dark:text-white">{{ t('messages.community_list') }}</h2>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">{{ t('messages.manage_community_data') }}</p>
                 </div>
                 <Link v-if="can('create komunitas')" href="/list-komunitas/create"
                     class="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium text-sm rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-sm hover:shadow-md">
                     <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
-                    Tambah Komunitas
+                    {{ t('messages.add_community') }}
                 </Link>
             </div>
         </div>
@@ -177,7 +179,7 @@ onMounted(() => {
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Total Komunitas</p>
+                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">{{ t('messages.total_community') }}</p>
                         <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ komunitas.length }}</p>
                     </div>
                 </div>
@@ -191,7 +193,7 @@ onMounted(() => {
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Komunitas Aktif</p>
+                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">{{ t('messages.active_community') }}</p>
                         <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ komunitas.filter(k => k.aktif).length }}</p>
                     </div>
                 </div>
@@ -205,7 +207,7 @@ onMounted(() => {
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Total Anggota</p>
+                        <p class="text-sm font-medium text-slate-600 dark:text-slate-400">{{ t('messages.total_members') }}</p>
                         <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ komunitas.reduce((sum, k) => sum + (k.jumlah_anggota || 0), 0) }}</p>
                     </div>
                 </div>
@@ -225,7 +227,7 @@ onMounted(() => {
                     <svg class="w-4 h-4 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
-                    Tabel
+                    {{ t('messages.table') }}
                 </button>
                 <button @click="switchView('map')"
                     :class="[
@@ -237,7 +239,7 @@ onMounted(() => {
                     <svg class="w-4 h-4 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                     </svg>
-                    Peta
+                    {{ t('messages.map') }}
                 </button>
             </div>
         </div>
@@ -245,18 +247,18 @@ onMounted(() => {
         <!-- Table View -->
         <div v-if="viewMode === 'table'" class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
-                <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Daftar Komunitas</h3>
+                <h3 class="text-lg font-semibold text-slate-800 dark:text-white">{{ t('messages.community_list') }}</h3>
             </div>
 
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                     <thead class="bg-slate-50 dark:bg-slate-800/50">
                         <tr>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Komunitas</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Jenis</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Kontak</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-4 text-center text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Aksi</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">{{ t('messages.community') }}</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">{{ t('messages.type') }}</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">{{ t('messages.contact') }}</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">{{ t('messages.status') }}</th>
+                            <th class="px-6 py-4 text-center text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">{{ t('messages.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white dark:bg-slate-800 divide-y divide-slate-200 dark:divide-slate-700">
@@ -287,11 +289,11 @@ onMounted(() => {
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span v-if="item.aktif" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
                                     <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1.5"></span>
-                                    Aktif
+                                    {{ t('messages.active') }}
                                 </span>
                                 <span v-else class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-900/30 text-slate-800 dark:text-slate-300">
                                     <span class="w-1.5 h-1.5 bg-slate-500 rounded-full mr-1.5"></span>
-                                    Tidak Aktif
+                                    {{ t('messages.inactive') }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
@@ -302,7 +304,7 @@ onMounted(() => {
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                         </svg>
-                                        Lihat
+                                        {{ t('messages.view') }}
                                     </Link>
 
                                     <Link v-if="can('edit komunitas')" :href="`/list-komunitas/${item.id}/edit`"
@@ -310,7 +312,7 @@ onMounted(() => {
                                         <svg class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                         </svg>
-                                        Edit
+                                        {{ t('messages.edit') }}
                                     </Link>
 
                                     <button v-if="can('delete komunitas')" @click="deleteKomunitas(item.id)"
@@ -318,7 +320,7 @@ onMounted(() => {
                                         <svg class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                         </svg>
-                                        Hapus
+                                        {{ t('messages.delete') }}
                                     </button>
                                 </div>
                             </td>
@@ -330,14 +332,14 @@ onMounted(() => {
                     <svg class="w-16 h-16 text-slate-400 dark:text-slate-600 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                    <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-2">Belum ada komunitas</h3>
-                    <p class="text-slate-500 dark:text-slate-400 mb-6">Mulai dengan menambahkan komunitas pertama Anda.</p>
+                    <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-2">{{ t('messages.no_community_yet') }}</h3>
+                    <p class="text-slate-500 dark:text-slate-400 mb-6">{{ t('messages.start_adding_community') }}</p>
                     <Link href="/list-komunitas/create"
                         class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium text-sm rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200">
                         <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
-                        Tambah Komunitas
+                        {{ t('messages.add_community') }}
                     </Link>
                 </div>
             </div>
@@ -354,7 +356,7 @@ onMounted(() => {
                         <svg class="w-4 h-4 mr-2 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
-                        Komunitas Proyek ({{ komunitasWithoutCoordinates.length }})
+                        {{ t('messages.project_community') }} ({{ komunitasWithoutCoordinates.length }})
                     </h3>
                     <div class="space-y-2 max-h-72 overflow-y-auto pr-1">
                         <Link v-for="item in komunitasWithoutCoordinates" :key="item.id" :href="`/list-komunitas/${item.id}`"

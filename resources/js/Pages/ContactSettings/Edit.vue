@@ -1,11 +1,14 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { useTranslations } from '@/composables/useTranslations';
 import { ref } from 'vue';
 
 const props = defineProps({
     setting: Object,
 });
+
+const { t } = useTranslations();
 
 const form = useForm({
     recipient_email: props.setting.recipient_email,
@@ -41,31 +44,31 @@ const submit = () => {
 const getPortalColor = (source) => {
     const colors = {
         'pendidikan': 'from-blue-500 to-cyan-500',
-        'komunitas': 'from-green-500 to-emerald-500',
-        'kebudayaan': 'from-purple-500 to-pink-500',
-        'datatek': 'from-orange-500 to-red-500'
+        'komunitas': 'from-blue-500 to-cyan-500',
+        'kebudayaan': 'from-blue-500 to-cyan-500',
+        'datatek': 'from-blue-500 to-cyan-500'
     };
     return colors[source] || 'from-slate-500 to-slate-600';
 };
 </script>
 
 <template>
-    <Head :title="`Edit Pengaturan ${setting.website_source}`" />
+    <Head :title="`${t('messages.edit_settings')} ${t(`messages.${setting.website_source}`)}`" />
 
     <AdminLayout>
-        <template #title>Edit Pengaturan Kontak</template>
+        <template #title>{{ t('messages.edit_settings') }} {{ t('messages.contact_settings') }}</template>
 
         <!-- Breadcrumb -->
         <div class="mb-6 md:mb-8">
             <nav class="flex items-center space-x-2 text-sm">
                 <Link href="/contact-settings"
                     class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
-                    Pengaturan Kontak
+                    {{ t('messages.contact_settings') }}
                 </Link>
                 <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
-                <span class="text-slate-900 dark:text-white font-medium capitalize">Edit {{ setting.website_source }}</span>
+                <span class="text-slate-900 dark:text-white font-medium capitalize">{{ t('messages.edit') }} {{ t(`messages.${setting.website_source}`) }}</span>
             </nav>
         </div>
 
@@ -81,7 +84,7 @@ const getPortalColor = (source) => {
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-lg font-semibold text-white capitalize">Portal {{ setting.website_source }}</h3>
+                        <h3 class="text-lg font-semibold text-white capitalize">{{ t('messages.portal') }} {{ t(`messages.${setting.website_source}`) }}</h3>
                         <p class="text-sm text-white/80">{{ setting.website_source }}.wikimedia.or.id</p>
                     </div>
                 </div>
@@ -92,7 +95,7 @@ const getPortalColor = (source) => {
                 <!-- Email Penerima Utama -->
                 <div>
                     <label for="recipient_email" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                        Email Penerima Utama <span class="text-red-500">*</span>
+                        {{ t('messages.main_recipient_email') }} <span class="text-red-500">*</span>
                     </label>
                     <input id="recipient_email" v-model="form.recipient_email" type="email"
                         class="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 transition-colors duration-200 placeholder:text-slate-400 dark:placeholder:text-slate-500"
@@ -106,19 +109,19 @@ const getPortalColor = (source) => {
                 <!-- CC Emails -->
                 <div>
                     <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                        Email CC (Carbon Copy)
+                        {{ t('messages.cc_carbon_copy') }}
                     </label>
                     <div class="flex gap-2 mb-3">
                         <input v-model="newCcEmail" type="email"
                             class="flex-1 px-4 py-3 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 transition-colors duration-200 placeholder:text-slate-400 dark:placeholder:text-slate-500"
-                            placeholder="Tambah email CC"
+                            :placeholder="t('messages.add_cc_email')"
                             @keyup.enter="addCcEmail" />
                         <button type="button" @click="addCcEmail"
                             class="px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-colors flex items-center">
                             <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                             </svg>
-                            Tambah
+                            {{ t('messages.add') }}
                         </button>
                     </div>
                     
@@ -134,18 +137,18 @@ const getPortalColor = (source) => {
                             </button>
                         </div>
                     </div>
-                    <p v-else class="text-sm text-slate-500 dark:text-slate-400 italic">Belum ada email CC</p>
+                    <p v-else class="text-sm text-slate-500 dark:text-slate-400 italic">{{ t('messages.no_cc_emails') }}</p>
                 </div>
 
-                <!-- Status Pengiriman Email - SIMPLE TOGGLE -->
+                <!-- Status Pengiriman Email -->
                 <div class="pt-4 border-t border-slate-200 dark:border-slate-700">
                     <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
                         <div>
                             <h4 class="text-sm font-semibold text-slate-900 dark:text-white mb-1">
-                                Aktifkan Pengiriman Email
+                                {{ t('messages.enable_email_sending') }}
                             </h4>
                             <p class="text-sm text-slate-600 dark:text-slate-400">
-                                {{ form.is_active ? 'Email akan dikirim otomatis' : 'Email tidak akan dikirim' }}
+                                {{ form.is_active ? t('messages.email_will_be_sent') : t('messages.email_wont_be_sent') }}
                             </p>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
@@ -155,20 +158,20 @@ const getPortalColor = (source) => {
                     </div>
                 </div>
 
-                <!-- Auto Reply - SIMPLE TOGGLE -->
+                <!-- Auto Reply -->
                 <div>
                     <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
                         <div>
                             <h4 class="text-sm font-semibold text-slate-900 dark:text-white mb-1">
-                                Balasan Otomatis
+                                {{ t('messages.auto_reply') }}
                             </h4>
                             <p class="text-sm text-slate-600 dark:text-slate-400">
-                                {{ form.send_auto_reply ? 'Pengirim akan terima email balasan' : 'Tidak ada balasan otomatis' }}
+                                {{ form.send_auto_reply ? t('messages.sender_will_receive') : t('messages.no_auto_reply') }}
                             </p>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" v-model="form.send_auto_reply" class="sr-only peer">
-                            <div class="w-11 h-6 bg-gray-400 rounded-full peer peer-checked:bg-green-600 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                            <div class="w-11 h-6 bg-gray-400 rounded-full peer peer-checked:bg-blue-600 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
                         </label>
                     </div>
                 </div>
@@ -176,24 +179,24 @@ const getPortalColor = (source) => {
                 <!-- Pesan Auto Reply -->
                 <div v-if="form.send_auto_reply">
                     <label for="auto_reply_message" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                        Pesan Balasan Otomatis
+                        {{ t('messages.auto_reply_message') }}
                     </label>
                     <textarea id="auto_reply_message" v-model="form.auto_reply_message" rows="5"
                         class="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 transition-colors duration-200 placeholder:text-slate-400 dark:placeholder:text-slate-500"
-                        placeholder="Masukkan pesan yang akan dikirim otomatis ke pengirim..."></textarea>
+                        :placeholder="t('messages.enter_auto_reply_message')"></textarea>
                 </div>
 
                 <!-- Form Actions -->
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-6 border-t border-slate-200 dark:border-slate-700 gap-3">
                     <Link href="/contact-settings"
                         class="inline-flex items-center justify-center px-4 py-2.5 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-medium text-sm rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-200">
-                        Batal
+                        {{ t('messages.cancel') }}
                     </Link>
 
                     <button type="submit" :disabled="form.processing"
                         class="inline-flex items-center justify-center px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium text-sm rounded-xl hover:from-blue-700 hover:to-purple-700 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-2 dark:focus:ring-offset-slate-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md">
-                        <span v-if="form.processing">Menyimpan...</span>
-                        <span v-else>Simpan Pengaturan</span>
+                        <span v-if="form.processing">{{ t('messages.saving') }}</span>
+                        <span v-else>{{ t('messages.save_settings') }}</span>
                     </button>
                 </div>
             </form>

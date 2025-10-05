@@ -2,6 +2,7 @@
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { usePermissions } from '@/composables/usePermissions';
+import { useTranslations } from '@/composables/useTranslations';
 import { ref, onMounted } from 'vue';
 
 const props = defineProps({
@@ -9,10 +10,11 @@ const props = defineProps({
 });
 
 const { can } = usePermissions();
+const { t } = useTranslations();
 const mapContainer = ref(null);
 
 const deleteKomunitas = () => {
-    if (confirm('Apakah Anda yakin ingin menghapus komunitas ini?')) {
+    if (confirm(t('messages.delete_community_confirm'))) {
         router.delete(`/list-komunitas/${props.komunitas.id}`);
     }
 };
@@ -61,22 +63,22 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head :title="`Detail ${komunitas.nama_komunitas}`" />
+    <Head :title="`${t('messages.detail')} ${komunitas.nama_komunitas}`" />
 
     <AdminLayout>
-        <template #title>Detail Komunitas</template>
+        <template #title>{{ t('messages.community_detail') }}</template>
 
         <!-- Breadcrumb -->
         <div class="mb-6 md:mb-8">
             <nav class="flex items-center space-x-2 text-sm">
                 <Link href="/list-komunitas"
                     class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
-                    List Komunitas
+                    {{ t('messages.community_list') }}
                 </Link>
                 <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
-                <span class="text-slate-900 dark:text-white font-medium">Detail Komunitas</span>
+                <span class="text-slate-900 dark:text-white font-medium">{{ t('messages.community_detail') }}</span>
             </nav>
         </div>
 
@@ -98,11 +100,11 @@ onMounted(() => {
                             </span>
                             <span v-if="komunitas.aktif" class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
                                 <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                                Aktif
+                                {{ t('messages.active') }}
                             </span>
                             <span v-else class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-slate-100 dark:bg-slate-900/30 text-slate-800 dark:text-slate-300">
                                 <span class="w-2 h-2 bg-slate-500 rounded-full mr-2"></span>
-                                Tidak Aktif
+                                {{ t('messages.inactive') }}
                             </span>
                         </div>
                     </div>
@@ -114,14 +116,14 @@ onMounted(() => {
                         <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
-                        Edit
+                        {{ t('messages.edit') }}
                     </Link>
                     <button v-if="can('delete komunitas')" @click="deleteKomunitas"
                         class="inline-flex items-center px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium text-sm rounded-xl transition-colors">
                         <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
-                        Hapus
+                        {{ t('messages.delete') }}
                     </button>
                 </div>
             </div>
@@ -134,17 +136,17 @@ onMounted(() => {
                 <!-- Informasi Dasar -->
                 <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
                     <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
-                        <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Informasi Dasar</h3>
+                        <h3 class="text-lg font-semibold text-slate-800 dark:text-white">{{ t('messages.basic_information') }}</h3>
                     </div>
                     <div class="p-6 space-y-4">
                         <div v-if="komunitas.deskripsi">
-                            <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Deskripsi</label>
+                            <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ t('messages.description') }}</label>
                             <p class="text-slate-900 dark:text-slate-200">{{ komunitas.deskripsi }}</p>
                         </div>
                         
                         <div class="grid grid-cols-2 gap-4">
                             <div v-if="komunitas.tanggal_berdiri">
-                                <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Tanggal Berdiri</label>
+                                <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ t('messages.established_date') }}</label>
                                 <p class="text-slate-900 dark:text-slate-200">
                                     {{ new Date(komunitas.tanggal_berdiri).toLocaleDateString('id-ID', { 
                                         year: 'numeric', 
@@ -155,8 +157,8 @@ onMounted(() => {
                             </div>
                             
                             <div v-if="komunitas.jumlah_anggota">
-                                <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Jumlah Anggota</label>
-                                <p class="text-slate-900 dark:text-slate-200">{{ komunitas.jumlah_anggota }} orang</p>
+                                <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ t('messages.member_count') }}</label>
+                                <p class="text-slate-900 dark:text-slate-200">{{ komunitas.jumlah_anggota }} {{ t('messages.people') }}</p>
                             </div>
                         </div>
                     </div>
@@ -165,7 +167,7 @@ onMounted(() => {
                 <!-- Kontak -->
                 <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
                     <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
-                        <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Informasi Kontak</h3>
+                        <h3 class="text-lg font-semibold text-slate-800 dark:text-white">{{ t('messages.contact_information') }}</h3>
                     </div>
                     <div class="p-6 space-y-4">
                         <div v-if="komunitas.surel" class="flex items-start">
@@ -187,7 +189,7 @@ onMounted(() => {
                                 </svg>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Telepon</label>
+                                <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ t('messages.phone') }}</label>
                                 <a :href="`tel:${komunitas.telepon}`" class="text-slate-900 dark:text-slate-200">{{ komunitas.telepon }}</a>
                             </div>
                         </div>
@@ -199,7 +201,7 @@ onMounted(() => {
                                 </svg>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Website</label>
+                                <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ t('messages.website') }}</label>
                                 <a :href="komunitas.website" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">{{ komunitas.website }}</a>
                             </div>
                         </div>
@@ -211,7 +213,7 @@ onMounted(() => {
                                 </svg>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Social Media</label>
+                                <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ t('messages.social_media') }}</label>
                                 <p class="text-slate-900 dark:text-slate-200">{{ komunitas.social_media }}</p>
                             </div>
                         </div>
@@ -221,27 +223,27 @@ onMounted(() => {
                 <!-- Lokasi & Peta -->
                 <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
                     <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
-                        <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Lokasi</h3>
+                        <h3 class="text-lg font-semibold text-slate-800 dark:text-white">{{ t('messages.location') }}</h3>
                     </div>
                     <div class="p-6 space-y-4">
                         <div v-if="komunitas.alamat">
-                            <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Alamat</label>
+                            <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ t('messages.address') }}</label>
                             <p class="text-slate-900 dark:text-slate-200">{{ komunitas.alamat }}</p>
                         </div>
 
                         <div v-if="komunitas.latitude && komunitas.longitude" class="grid grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Latitude</label>
+                                <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ t('messages.latitude') }}</label>
                                 <p class="text-slate-900 dark:text-slate-200 font-mono text-sm">{{ komunitas.latitude }}</p>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Longitude</label>
+                                <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ t('messages.longitude') }}</label>
                                 <p class="text-slate-900 dark:text-slate-200 font-mono text-sm">{{ komunitas.longitude }}</p>
                             </div>
                         </div>
 
                         <div v-if="komunitas.latitude && komunitas.longitude" class="mt-4">
-                            <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Peta Lokasi</label>
+                            <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">{{ t('messages.location_map') }}</label>
                             <div ref="mapContainer" class="w-full h-64 rounded-xl border border-slate-200 dark:border-slate-600"></div>
                         </div>
                     </div>
@@ -253,16 +255,16 @@ onMounted(() => {
                 <!-- Meta Info -->
                 <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
                     <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
-                        <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Informasi Sistem</h3>
+                        <h3 class="text-lg font-semibold text-slate-800 dark:text-white">{{ t('messages.system_information') }}</h3>
                     </div>
                     <div class="p-6 space-y-4">
                         <div>
-                            <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Dibuat Oleh</label>
+                            <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ t('messages.created_by') }}</label>
                             <p class="text-slate-900 dark:text-slate-200">{{ komunitas.creator?.name || '-' }}</p>
                         </div>
                         
                         <div>
-                            <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Dibuat Pada</label>
+                            <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ t('messages.created_at') }}</label>
                             <p class="text-slate-900 dark:text-slate-200">
                                 {{ new Date(komunitas.created_at).toLocaleDateString('id-ID', { 
                                     year: 'numeric', 
@@ -275,12 +277,12 @@ onMounted(() => {
                         </div>
 
                         <div v-if="komunitas.updater">
-                            <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Terakhir Diubah Oleh</label>
+                            <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ t('messages.last_updated_by') }}</label>
                             <p class="text-slate-900 dark:text-slate-200">{{ komunitas.updater?.name || '-' }}</p>
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Terakhir Diubah</label>
+                            <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ t('messages.last_updated') }}</label>
                             <p class="text-slate-900 dark:text-slate-200">
                                 {{ new Date(komunitas.updated_at).toLocaleDateString('id-ID', { 
                                     year: 'numeric', 
@@ -296,16 +298,16 @@ onMounted(() => {
 
                 <!-- Quick Stats -->
                 <div class="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl shadow-sm border border-blue-100 dark:border-blue-800 p-6">
-                    <h3 class="text-lg font-semibold text-slate-800 dark:text-white mb-4">Statistik</h3>
+                    <h3 class="text-lg font-semibold text-slate-800 dark:text-white mb-4">{{ t('messages.statistics') }}</h3>
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
-                            <span class="text-sm text-slate-600 dark:text-slate-400">Total Anggota</span>
+                            <span class="text-sm text-slate-600 dark:text-slate-400">{{ t('messages.total_members') }}</span>
                             <span class="text-lg font-bold text-blue-600 dark:text-blue-400">{{ komunitas.jumlah_anggota || 0 }}</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <span class="text-sm text-slate-600 dark:text-slate-400">Status</span>
+                            <span class="text-sm text-slate-600 dark:text-slate-400">{{ t('messages.status') }}</span>
                             <span class="text-lg font-bold" :class="komunitas.aktif ? 'text-green-600 dark:text-green-400' : 'text-slate-600 dark:text-slate-400'">
-                                {{ komunitas.aktif ? 'Aktif' : 'Tidak Aktif' }}
+                                {{ komunitas.aktif ? t('messages.active') : t('messages.inactive') }}
                             </span>
                         </div>
                     </div>

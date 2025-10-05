@@ -5,9 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title inertia>{{ config('app.name', 'Wikimedia Indonesia') }}</title>
-
-        <meta name="description" content="Wikimedia Indonesia - Bersama Membangun Pengetahuan Terbuka">
-        <meta name="keywords" content="Wikimedia Indonesia, Bersama Membangun Pengetahuan Terbuka">
         <meta name="author" content="Wikimedia Indonesia">
         <meta name="robots" content="index, follow">
 

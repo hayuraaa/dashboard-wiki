@@ -140,16 +140,7 @@ onUnmounted(() => {
                         <span v-if="showingSidebar">List Komunitas</span>
                         </Link>
 
-                    </div>
-
-                    <!-- Contact Management Section -->
-                    <div class="pt-6">
-                        <p v-if="showingSidebar"
-                            class="px-4 text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">
-                            Kontak Management
-                        </p>
-                        <div class="space-y-1">
-                            <Link v-if="can('view contact submissions')" href="/contact-submissions"
+                        <Link v-if="can('view contact submissions')" href="/contact-submissions"
                                 @click="isMobile ? toggleSidebar() : null" :class="[
                                     'group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 border',
                                     $page.url.startsWith('/contact-submissions')
@@ -159,6 +150,15 @@ onUnmounted(() => {
                             <font-awesome-icon icon="inbox" class="w-5 h-5 mr-3 flex-shrink-0" />
                             <span v-if="showingSidebar">Pesan Kontak</span>
                             </Link>
+
+                    </div>
+
+                    <!-- Settings Section -->
+                    <div class="pt-6">
+                        <p v-if="showingSidebar"
+                            class="px-4 text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">
+                            {{ t('messages.settings') }}</p>
+                        <div class="space-y-1">
 
                             <Link v-if="can('view contact settings')" href="/contact-settings"
                                 @click="isMobile ? toggleSidebar() : null" :class="[
@@ -170,15 +170,7 @@ onUnmounted(() => {
                             <font-awesome-icon icon="envelope-open-text" class="w-5 h-5 mr-3 flex-shrink-0" />
                             <span v-if="showingSidebar">Pengaturan Kontak</span>
                             </Link>
-                        </div>
-                    </div>
 
-                    <!-- Settings Section -->
-                    <div class="pt-6">
-                        <p v-if="showingSidebar"
-                            class="px-4 text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">
-                            {{ t('messages.settings') }}</p>
-                        <div class="space-y-1">
                             <Link v-if="can('view users')" href="/users" @click="isMobile ? toggleSidebar() : null"
                                 :class="[
                                     'group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 border',
