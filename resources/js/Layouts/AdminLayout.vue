@@ -130,36 +130,49 @@ onUnmounted(() => {
                         <span v-if="showingSidebar">Dashboard</span>
                         </Link>
 
-                        <Link v-if="can('view komunitas')" href="/list-komunitas" @click="isMobile ? toggleSidebar() : null" :class="[
-                            'group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 border',
-                            $page.url.startsWith('/list-komunitas')
-                                ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-400 border-blue-100 dark:border-blue-800'
-                                : 'text-slate-600 dark:text-slate-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20 hover:text-blue-700 dark:hover:text-blue-400 border-transparent hover:border-blue-100 dark:hover:border-blue-800'
-                        ]" :title="!showingSidebar ? 'List Komunitas' : ''">
+                        <Link v-if="can('view komunitas')" href="/list-komunitas"
+                            @click="isMobile ? toggleSidebar() : null" :class="[
+                                'group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 border',
+                                $page.url.startsWith('/list-komunitas')
+                                    ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-400 border-blue-100 dark:border-blue-800'
+                                    : 'text-slate-600 dark:text-slate-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20 hover:text-blue-700 dark:hover:text-blue-400 border-transparent hover:border-blue-100 dark:hover:border-blue-800'
+                            ]" :title="!showingSidebar ? 'List Komunitas' : ''">
                         <font-awesome-icon icon="user-friends" class="w-5 h-5 mr-3 flex-shrink-0" />
                         <span v-if="showingSidebar">List Komunitas</span>
                         </Link>
 
-                        <Link v-if="can('view materi')" href="/materi-datatek" @click="isMobile ? toggleSidebar() : null" :class="[
-                            'group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 border',
-                            $page.url.startsWith('/materi-datatek')
-                                ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-400 border-blue-100 dark:border-blue-800'
-                                : 'text-slate-600 dark:text-slate-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20 hover:text-blue-700 dark:hover:text-blue-400 border-transparent hover:border-blue-100 dark:hover:border-blue-800'
-                        ]" :title="!showingSidebar ? 'Materi Datatek' : ''">
-                        <font-awesome-icon icon="user-friends" class="w-5 h-5 mr-3 flex-shrink-0" />
+                        <Link v-if="can('view materi')" href="/materi-datatek"
+                            @click="isMobile ? toggleSidebar() : null" :class="[
+                                'group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 border',
+                                $page.url.startsWith('/materi-datatek')
+                                    ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-400 border-blue-100 dark:border-blue-800'
+                                    : 'text-slate-600 dark:text-slate-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20 hover:text-blue-700 dark:hover:text-blue-400 border-transparent hover:border-blue-100 dark:hover:border-blue-800'
+                            ]" :title="!showingSidebar ? 'Materi Datatek' : ''">
+                        <font-awesome-icon icon="book-open" class="w-5 h-5 mr-3 flex-shrink-0" />
                         <span v-if="showingSidebar">Materi Datatek</span>
                         </Link>
 
+                        <Link v-if="can('view banner modal')" href="/banner-modals"
+                            @click="isMobile ? toggleSidebar() : null" :class="[
+                                'group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 border',
+                                $page.url.startsWith('/banner-modals')
+                                    ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-400 border-blue-100 dark:border-blue-800'
+                                    : 'text-slate-600 dark:text-slate-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20 hover:text-blue-700 dark:hover:text-blue-400 border-transparent hover:border-blue-100 dark:hover:border-blue-800'
+                            ]" :title="!showingSidebar ? 'Banner Modal' : ''">
+                        <font-awesome-icon icon="bullhorn" class="w-5 h-5 mr-3 flex-shrink-0" />
+                        <span v-if="showingSidebar">Banner Modal</span>
+                        </Link>
+
                         <Link v-if="can('view contact submissions')" href="/contact-submissions"
-                                @click="isMobile ? toggleSidebar() : null" :class="[
-                                    'group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 border',
-                                    $page.url.startsWith('/contact-submissions')
-                                        ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-400 border-blue-100 dark:border-blue-800'
-                                        : 'text-slate-600 dark:text-slate-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20 hover:text-blue-700 dark:hover:text-blue-400 border-transparent hover:border-blue-100 dark:hover:border-blue-800'
-                                ]" :title="!showingSidebar ? 'Pesan Kontak' : ''">
-                            <font-awesome-icon icon="inbox" class="w-5 h-5 mr-3 flex-shrink-0" />
-                            <span v-if="showingSidebar">Pesan Kontak</span>
-                            </Link>
+                            @click="isMobile ? toggleSidebar() : null" :class="[
+                                'group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 border',
+                                $page.url.startsWith('/contact-submissions')
+                                    ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-400 border-blue-100 dark:border-blue-800'
+                                    : 'text-slate-600 dark:text-slate-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20 hover:text-blue-700 dark:hover:text-blue-400 border-transparent hover:border-blue-100 dark:hover:border-blue-800'
+                            ]" :title="!showingSidebar ? 'Pesan Kontak' : ''">
+                        <font-awesome-icon icon="inbox" class="w-5 h-5 mr-3 flex-shrink-0" />
+                        <span v-if="showingSidebar">Pesan Kontak</span>
+                        </Link>
 
                     </div>
 

@@ -11,6 +11,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\MateriDatatekController;
 use App\Http\Controllers\KomunitasController;
+use App\Http\Controllers\BannerModalController;
 use App\Http\Controllers\ContactSettingController;
 use App\Http\Controllers\ContactSubmissionAdminController;
 use App\Http\Controllers\PublicContactController;
@@ -84,6 +85,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/materi-datatek/{materiDatatek}/edit', [MateriDatatekController::class, 'edit'])->name('materi-datatek.edit');
     Route::put('/materi-datatek/{materiDatatek}', [MateriDatatekController::class, 'update'])->name('materi-datatek.update');
     Route::delete('/materi-datatek/{materiDatatek}', [MateriDatatekController::class, 'destroy'])->name('materi-datatek.destroy');
+
+    // Banner Modal Management
+    Route::get('/banner-modals', [BannerModalController::class, 'index'])->name('banner-modals.index');
+    Route::get('/banner-modals/create', [BannerModalController::class, 'create'])->name('banner-modals.create');
+    Route::post('/banner-modals', [BannerModalController::class, 'store'])->name('banner-modals.store');
+    Route::get('/banner-modals/{bannerModal}', [BannerModalController::class, 'show'])->name('banner-modals.show');
+    Route::get('/banner-modals/{bannerModal}/edit', [BannerModalController::class, 'edit'])->name('banner-modals.edit');
+    Route::put('/banner-modals/{bannerModal}', [BannerModalController::class, 'update'])->name('banner-modals.update');
+    Route::delete('/banner-modals/{bannerModal}', [BannerModalController::class, 'destroy'])->name('banner-modals.destroy');
 
     // Contact Settings Management
     Route::get('/contact-settings', [ContactSettingController::class, 'index'])->name('contact-settings.index');

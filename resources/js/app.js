@@ -33,7 +33,10 @@ import {
     faCheck,
     faUserFriends,
     faInbox,
-    faEnvelopeOpenText
+    faEnvelopeOpenText,
+    faBookOpen,        
+    faBullhorn,        
+    faImage           
 } from '@fortawesome/free-solid-svg-icons';
 
 // Add Font Awesome icons to the library
@@ -63,7 +66,10 @@ library.add(
     faCheck,
     faUserFriends,
     faInbox,
-    faEnvelopeOpenText
+    faEnvelopeOpenText,
+    faBookOpen,
+    faBullhorn,
+    faImage
 );
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
