@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\MateriDatatekController;
 use App\Http\Controllers\KomunitasController;
 use App\Http\Controllers\ContactSettingController;
 use App\Http\Controllers\ContactSubmissionAdminController;
@@ -75,6 +76,15 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/list-komunitas/{komunita}', [KomunitasController::class, 'update'])->name('komunitas.update');
     Route::delete('/list-komunitas/{komunita}', [KomunitasController::class, 'destroy'])->name('komunitas.destroy');
 
+    // Materi Datatek Management
+    Route::get('/materi-datatek', [MateriDatatekController::class, 'index'])->name('materi-datatek.index');
+    Route::get('/materi-datatek/create', [MateriDatatekController::class, 'create'])->name('materi-datatek.create');
+    Route::post('/materi-datatek', [MateriDatatekController::class, 'store'])->name('materi-datatek.store');
+    Route::get('/materi-datatek/{materiDatatek}', [MateriDatatekController::class, 'show'])->name('materi-datatek.show');
+    Route::get('/materi-datatek/{materiDatatek}/edit', [MateriDatatekController::class, 'edit'])->name('materi-datatek.edit');
+    Route::put('/materi-datatek/{materiDatatek}', [MateriDatatekController::class, 'update'])->name('materi-datatek.update');
+    Route::delete('/materi-datatek/{materiDatatek}', [MateriDatatekController::class, 'destroy'])->name('materi-datatek.destroy');
+
     // Contact Settings Management
     Route::get('/contact-settings', [ContactSettingController::class, 'index'])->name('contact-settings.index');
     Route::get('/contact-settings/{contactSetting}/edit', [ContactSettingController::class, 'edit'])->name('contact-settings.edit');
@@ -86,6 +96,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/contact-submissions/{contactSubmission}/status', [ContactSubmissionAdminController::class, 'updateStatus'])->name('contact-submissions.update-status');
     Route::delete('/contact-submissions/{contactSubmission}', [ContactSubmissionAdminController::class, 'destroy'])->name('contact-submissions.destroy');
 
+    
 });
 
 /*
