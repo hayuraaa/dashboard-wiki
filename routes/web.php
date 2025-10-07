@@ -12,6 +12,8 @@ use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\MateriDatatekController;
 use App\Http\Controllers\KomunitasController;
 use App\Http\Controllers\BannerModalController;
+use App\Http\Controllers\SliderController;
+use App\Http\Controllers\SliderCategoryController;
 use App\Http\Controllers\ContactSettingController;
 use App\Http\Controllers\ContactSubmissionAdminController;
 use App\Http\Controllers\PublicContactController;
@@ -62,11 +64,20 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/activity-logs/{activity}', [ActivityLogController::class, 'show'])
         ->middleware('role:super-admin')
         ->name('activity-logs.show');
+    
+
+    Route::get('/sliders', [SliderController::class, 'index'])->name('sliders.index');
+    Route::get('/sliders/create', [SliderController::class, 'create'])->name('sliders.create');
+    Route::post('/sliders', [SliderController::class, 'store'])->name('sliders.store');
+    Route::get('/sliders/{slider}/edit', [SliderController::class, 'edit'])->name('sliders.edit');
+    Route::put('/sliders/{slider}', [SliderController::class, 'update'])->name('sliders.update');
+    Route::delete('/sliders/{slider}', [SliderController::class, 'destroy'])->name('sliders.destroy');
 
     // Data Master Routes
     Route::get('/data-master', function () {
         return Inertia::render('DataMaster/Index');
-    })->middleware('permission:view data master')->name('data-master.index');
+    })->name('data-master.index');
+    Route::resource('data-master/slider-categories', SliderCategoryController::class)->except(['show']);
 
     // Komunitas Management
     Route::get('/list-komunitas', [KomunitasController::class, 'index'])->name('komunitas.index');

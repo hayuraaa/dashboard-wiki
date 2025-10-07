@@ -1,6 +1,6 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { usePermissions } from '@/composables/usePermissions';
 import { useTranslations } from '@/composables/useTranslations';
 
@@ -10,12 +10,12 @@ const { t } = useTranslations();
 const masterMenus = [
     {
         id: 1,
-        title: 'Master Gambar',
-        description: 'Mengatur sub kategori gambar untuk view di halaman utama',
+        title: 'Master Slider Gambar',
+        description: 'Mengatur sub kategori slider gambar untuk view di halaman situs tertentu',
         icon: 'image',
         color: 'from-purple-500 to-pink-500',
-        href: '#',
-        disabled: true
+        href: '/data-master/slider-categories',
+        disabled: false
     },
     {
         id: 2,
@@ -28,15 +28,6 @@ const masterMenus = [
     },
     {
         id: 3,
-        title: 'Master Kamus',
-        description: 'Untuk mengatur sub kategori kamus dan mengorganisir kamus',
-        icon: 'book',
-        color: 'from-green-500 to-emerald-500',
-        href: '#',
-        disabled: true
-    },
-    {
-        id: 4,
         title: 'Master Modul',
         description: 'Mengatur kategori dan sub-sub modul pembelajaran',
         icon: 'folder',
@@ -45,7 +36,7 @@ const masterMenus = [
         disabled: true
     },
     {
-        id: 5,
+        id: 4,
         title: 'Master Kategori',
         description: 'Mengatur kategori konten untuk sistem',
         icon: 'tag',
@@ -54,7 +45,7 @@ const masterMenus = [
         disabled: true
     },
     {
-        id: 6,
+        id: 5,
         title: 'Master Media',
         description: 'Mengelola media dan file multimedia',
         icon: 'play',
@@ -68,7 +59,6 @@ const getIcon = (iconName) => {
     const icons = {
         image: 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z',
         document: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
-        book: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
         folder: 'M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z',
         tag: 'M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z',
         play: 'M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
@@ -95,7 +85,11 @@ const getIcon = (iconName) => {
 
         <!-- Master Menus Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div v-for="menu in masterMenus" :key="menu.id"
+            <component 
+                :is="menu.disabled ? 'div' : Link"
+                v-for="menu in masterMenus" 
+                :key="menu.id"
+                :href="menu.disabled ? undefined : menu.href"
                 :class="[
                     'bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-all duration-200',
                     menu.disabled 
@@ -130,8 +124,7 @@ const getIcon = (iconName) => {
 
                     <!-- Button -->
                     <div class="pt-4 border-t border-slate-100 dark:border-slate-700">
-                        <button
-                            :disabled="menu.disabled"
+                        <div
                             :class="[
                                 'w-full inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200',
                                 menu.disabled
@@ -142,10 +135,10 @@ const getIcon = (iconName) => {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                             </svg>
                             {{ menu.disabled ? 'Belum Tersedia' : 'Kelola Data' }}
-                        </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </component>
         </div>
     </AdminLayout>
 </template>
