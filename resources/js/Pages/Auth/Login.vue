@@ -36,7 +36,7 @@ const submit = () => {
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
             <!-- Logo -->
             <div class="flex justify-center mb-6">
-                <img src="/Logo_WMID_2018_Mendatar.png" alt="Wikimedia Indonesia" class="h-20 w-auto" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Logo_WMID_2018_Mendatar_SVG.svg" alt="Wikimedia Indonesia" class="h-20 w-auto" />
             </div>
             <p class="mt-2 text-center text-sm text-gray-600">
                 Selamat datang kembali

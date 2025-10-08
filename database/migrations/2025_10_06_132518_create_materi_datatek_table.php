@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('judul');
             $table->text('keterangan')->nullable();
-            $table->enum('jenis_media', ['youtube', 'google_slides', 'google_docs'])->default('youtube');
+            $table->enum('jenis_media', ['youtube', 'google_slides', 'google_docs', 'wikimedia_commons'])->default('youtube');
             $table->string('url_media'); // URL embed dari YouTube, Google Slides, atau Google Docs
             $table->boolean('is_active')->default(true);
             $table->integer('urutan')->default(0); // Untuk sorting

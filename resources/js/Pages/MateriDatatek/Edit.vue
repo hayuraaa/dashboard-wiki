@@ -39,6 +39,17 @@ const handleMediaChange = () => {
         if (form.url_media.includes('docs.google.com/document')) {
             videoPreview.value = form.url_media.replace('/edit', '/preview');
         }
+    } else if (form.url_media && form.jenis_media === 'wikimedia_commons') {
+        // Jika user kasih URL lengkap PDF, langsung pakai
+        if (form.url_media.includes('upload.wikimedia.org')) {
+            videoPreview.value = form.url_media;
+        }
+        // Jika URL halaman File:, kita perlu convert
+        else if (form.url_media.includes('commons.wikimedia.org/wiki/File:')) {
+            // Kasih pesan ke user untuk pakai URL direct
+            videoPreview.value = null;
+            alert('Gunakan URL direct PDF: Klik kanan pada PDF → Copy link address');
+        }
     }
 };
 
@@ -46,7 +57,8 @@ const getMediaPlaceholder = () => {
     const placeholders = {
         'youtube': 'https://www.youtube.com/watch?v=VIDEO_ID atau https://youtu.be/VIDEO_ID',
         'google_slides': 'https://docs.google.com/presentation/d/SLIDE_ID/edit',
-        'google_docs': 'https://docs.google.com/document/d/DOC_ID/edit'
+        'google_docs': 'https://docs.google.com/document/d/DOC_ID/edit',
+        'wikimedia_commons': 'https://upload.wikimedia.org/wikipedia/commons/e/e3/Buku_Pegangan_Data_Terbuka.pdf'
     };
     return placeholders[form.jenis_media] || '';
 };
@@ -55,7 +67,8 @@ const getMediaHelp = () => {
     const helps = {
         'youtube': 'Masukkan URL video YouTube (contoh: https://www.youtube.com/watch?v=dQw4w9WgXcQ)',
         'google_slides': 'Masukkan URL Google Slides yang sudah dibagikan (pastikan akses publik)',
-        'google_docs': 'Masukkan URL Google Docs yang sudah dibagikan (pastikan akses publik)'
+        'google_docs': 'Masukkan URL Google Docs yang sudah dibagikan (pastikan akses publik)',
+        'wikimedia_commons': 'Gunakan URL direct PDF (bukan URL halaman wiki). Cara: Buka file di Commons → Klik "Original file" → Copy URL'
     };
     return helps[form.jenis_media] || '';
 };
@@ -186,7 +199,14 @@ const submit = () => {
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                                 Preview Media
                             </label>
-                            <div class="w-full aspect-video rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-900">
+                            <div v-if="form.jenis_media === 'wikimedia_commons'" class="w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-900" style="height: 600px;">
+                                <iframe
+                                    :src="videoPreview"
+                                    type="application/pdf"
+                                    class="w-full h-full"
+                                ></iframe>
+                            </div>
+                            <div v-else class="w-full aspect-video rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-900">
                                 <iframe
                                     :src="videoPreview"
                                     class="w-full h-full"

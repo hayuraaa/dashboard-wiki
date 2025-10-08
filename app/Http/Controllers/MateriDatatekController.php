@@ -38,6 +38,7 @@ class MateriDatatekController extends Controller
             ['value' => 'youtube', 'label' => 'YouTube'],
             ['value' => 'google_slides', 'label' => 'Google Slides'],
             ['value' => 'google_docs', 'label' => 'Google Docs'],
+            ['value' => 'wikimedia_commons', 'label' => 'Wikimedia Commons'],
         ];
 
         return Inertia::render('MateriDatatek/Create', [
@@ -50,7 +51,7 @@ class MateriDatatekController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
-            'jenis_media' => 'required|in:youtube,google_slides,google_docs',
+            'jenis_media' => 'required|in:youtube,google_slides,google_docs,wikimedia_commons',
             'url_media' => 'required|url|max:500',
             'is_active' => 'boolean',
             'urutan' => 'nullable|integer|min:0',
@@ -84,6 +85,7 @@ class MateriDatatekController extends Controller
             ['value' => 'youtube', 'label' => 'YouTube'],
             ['value' => 'google_slides', 'label' => 'Google Slides'],
             ['value' => 'google_docs', 'label' => 'Google Docs'],
+            ['value' => 'wikimedia_commons', 'label' => 'Wikimedia Commons'],
         ];
 
         return Inertia::render('MateriDatatek/Edit', [
@@ -97,7 +99,7 @@ class MateriDatatekController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
-            'jenis_media' => 'required|in:youtube,google_slides,google_docs',
+            'jenis_media' => 'required|in:youtube,google_slides,google_docs,wikimedia_commons',
             'url_media' => 'required|url|max:500',
             'is_active' => 'boolean',
             'urutan' => 'nullable|integer|min:0',

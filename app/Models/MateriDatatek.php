@@ -62,6 +62,15 @@ class MateriDatatek extends Model
      */
     public function getEmbedUrlAttribute()
     {
+        if ($this->jenis_media === 'wikimedia_commons') {
+            // Ambil URL PDF langsung
+            if (preg_match('/File:(.+\.pdf)/i', $this->url_media, $matches)) {
+                $fileName = str_replace(' ', '_', $matches[1]);
+                return "https://upload.wikimedia.org/wikipedia/commons/" . 
+                    $this->getWikimediaPath($fileName);
+            }
+        }
+
         if ($this->jenis_media === 'youtube') {
             // Convert various YouTube URL formats to embed format
             $url = $this->url_media;
@@ -79,4 +88,12 @@ class MateriDatatek extends Model
         
         return $this->url_media;
     }
+
+    private function getWikimediaPath($fileName)
+    {
+        // Hash untuk path Wikimedia
+        $hash = md5($fileName);
+        return substr($hash, 0, 1) . '/' . substr($hash, 0, 2) . '/' . $fileName;
+    }
+
 }

@@ -20,7 +20,8 @@ const getBadgeColor = (jenis) => {
     const colors = {
         'youtube': 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300',
         'google_slides': 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300',
-        'google_docs': 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300'
+        'google_docs': 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+        'wikimedia_commons': 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
     };
     return colors[jenis] || 'bg-slate-100 dark:bg-slate-900/30 text-slate-800 dark:text-slate-300';
 };
@@ -35,6 +36,9 @@ const getMediaIcon = (jenis) => {
         </svg>`,
         'google_docs': `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
             <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6zm2-6h8v2H8v-2zm0-3h8v2H8v-2zm0-3h5v2H8V8z"/>
+        </svg>`,
+        'wikimedia_commons': `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6zm10-9H8v6h8v-6z"/>
         </svg>`
     };
     return icons[jenis] || '';
@@ -44,7 +48,8 @@ const getMediaLabel = (jenis) => {
     const labels = {
         'youtube': 'YouTube',
         'google_slides': 'Google Slides',
-        'google_docs': 'Google Docs'
+        'google_docs': 'Google Docs',
+        'wikimedia_commons': 'Wikimedia Commons'
     };
     return labels[jenis] || jenis;
 };
