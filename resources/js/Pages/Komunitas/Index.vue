@@ -438,30 +438,4 @@ onMounted(() => {
     background: transparent;
     border: none;
 }
-
-/* Custom scrollbar for list */
-.overflow-y-auto::-webkit-scrollbar {
-    width: 6px;
-}
-
-.overflow-y-auto::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.overflow-y-auto::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 3px;
-}
-
-.dark .overflow-y-auto::-webkit-scrollbar-thumb {
-    background: #475569;
-}
-
-.overflow-y-auto::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
-}
-
-.dark .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-    background: #64748b;
-}
 </style>

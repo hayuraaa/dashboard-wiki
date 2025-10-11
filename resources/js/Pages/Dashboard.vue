@@ -1,10 +1,13 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
+import { usePermissions } from '@/composables/usePermissions';
 import { Head, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 
 const page = usePage();
 const user = computed(() => page.props.auth.user);
+
+const { can, hasRole } = usePermissions();
 
 const getCurrentTime = () => {
     const hour = new Date().getHours();
@@ -316,7 +319,7 @@ const getActivityLabel = (description, subjectType) => {
                 <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
                     <div class="flex items-center justify-between">
                         <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Aktivitas Terbaru</h3>
-                        <a href="/activity-logs"
+                        <a v-if="hasRole('super-admin')" href="/activity-logs"
                             class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center gap-1">
                             Lihat Semua
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
