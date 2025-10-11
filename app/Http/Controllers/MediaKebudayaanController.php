@@ -8,27 +8,27 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Inertia\Inertia;
 
-class MateriDatatekController extends Controller
+class MediaKebudayaanController extends Controller
 {
     public static function middleware(): array
     {
         return [
-            new Middleware('permission:view materi', only: ['index', 'show']),
-            new Middleware('permission:create materi', only: ['create', 'store']),
-            new Middleware('permission:edit materi', only: ['edit', 'update']),
-            new Middleware('permission:delete materi', only: ['destroy']),
+            new Middleware('permission:view materi kebudayaan', only: ['index', 'show']),
+            new Middleware('permission:create materi kebudayaan', only: ['create', 'store']),
+            new Middleware('permission:edit materi kebudayaan', only: ['edit', 'update']),
+            new Middleware('permission:delete materi kebudayaan', only: ['destroy']),
         ];
     }
 
     public function index()
     {
         $materi = MateriDatatek::with(['creator', 'updater'])
-            ->where('kategori', 'datatek') // Filter hanya kategori datatek
+            ->where('kategori', 'kebudayaan') // Filter hanya kategori kebudayaan
             ->orderBy('urutan', 'asc')
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return Inertia::render('MateriDatatek/Index', [
+        return Inertia::render('MediaKebudayaan/Index', [
             'materi' => $materi
         ]);
     }
@@ -42,7 +42,7 @@ class MateriDatatekController extends Controller
             ['value' => 'wikimedia_commons', 'label' => 'Wikimedia Commons'],
         ];
 
-        return Inertia::render('MateriDatatek/Create', [
+        return Inertia::render('MediaKebudayaan/Create', [
             'jenisMedia' => $jenisMedia
         ]);
     }
@@ -60,7 +60,7 @@ class MateriDatatekController extends Controller
 
         $data = $request->all();
         $data['created_by'] = auth()->id();
-        $data['kategori'] = 'datatek'; // Set default kategori datatek
+        $data['kategori'] = 'kebudayaan'; // Set kategori kebudayaan
 
         $materi = MateriDatatek::create($data);
 
@@ -68,20 +68,20 @@ class MateriDatatekController extends Controller
         activity()
             ->causedBy(auth()->user())
             ->performedOn($materi)
-            ->log('Created new materi');
+            ->log('Created new media kebudayaan');
 
-        return redirect()->route('materi-datatek.index')
-            ->with('success', 'Materi berhasil ditambahkan.');
+        return redirect()->route('media-kebudayaan.index')
+            ->with('success', 'Media kebudayaan berhasil ditambahkan.');
     }
 
-    public function show(MateriDatatek $materiDatatek)
+    public function show(MateriDatatek $mediaKebudayaan)
     {
-        return Inertia::render('MateriDatatek/Show', [
-            'materi' => $materiDatatek->load(['creator', 'updater'])
+        return Inertia::render('MediaKebudayaan/Show', [
+            'materi' => $mediaKebudayaan->load(['creator', 'updater'])
         ]);
     }
 
-    public function edit(MateriDatatek $materiDatatek)
+    public function edit(MateriDatatek $mediaKebudayaan)
     {
         $jenisMedia = [
             ['value' => 'youtube', 'label' => 'YouTube'],
@@ -90,13 +90,13 @@ class MateriDatatekController extends Controller
             ['value' => 'wikimedia_commons', 'label' => 'Wikimedia Commons'],
         ];
 
-        return Inertia::render('MateriDatatek/Edit', [
-            'materi' => $materiDatatek,
+        return Inertia::render('MediaKebudayaan/Edit', [
+            'materi' => $mediaKebudayaan,
             'jenisMedia' => $jenisMedia
         ]);
     }
 
-    public function update(Request $request, MateriDatatek $materiDatatek)
+    public function update(Request $request, MateriDatatek $mediaKebudayaan)
     {
         $request->validate([
             'judul' => 'required|string|max:255',
@@ -110,30 +110,30 @@ class MateriDatatekController extends Controller
         $data = $request->all();
         $data['updated_by'] = auth()->id();
 
-        $materiDatatek->update($data);
+        $mediaKebudayaan->update($data);
 
         // Log activity
         activity()
             ->causedBy(auth()->user())
-            ->performedOn($materiDatatek)
-            ->log('Updated materi');
+            ->performedOn($mediaKebudayaan)
+            ->log('Updated media kebudayaan');
 
-        return redirect()->route('materi-datatek.index')
-            ->with('success', 'Materi berhasil diupdate.');
+        return redirect()->route('media-kebudayaan.index')
+            ->with('success', 'Media kebudayaan berhasil diupdate.');
     }
 
-    public function destroy(MateriDatatek $materiDatatek)
+    public function destroy(MateriDatatek $mediaKebudayaan)
     {
         // Log activity
         activity()
             ->causedBy(auth()->user())
-            ->performedOn($materiDatatek)
-            ->withProperties(['deleted_materi' => $materiDatatek->toArray()])
-            ->log('Deleted materi');
+            ->performedOn($mediaKebudayaan)
+            ->withProperties(['deleted_materi' => $mediaKebudayaan->toArray()])
+            ->log('Deleted media kebudayaan');
 
-        $materiDatatek->delete();
+        $mediaKebudayaan->delete();
 
-        return redirect()->route('materi-datatek.index')
-            ->with('success', 'Materi berhasil dihapus.');
+        return redirect()->route('media-kebudayaan.index')
+            ->with('success', 'Media kebudayaan berhasil dihapus.');
     }
 }

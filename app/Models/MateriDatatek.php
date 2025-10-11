@@ -18,6 +18,7 @@ class MateriDatatek extends Model
         'judul',
         'keterangan',
         'jenis_media',
+        'kategori',
         'url_media',
         'is_active',
         'urutan',

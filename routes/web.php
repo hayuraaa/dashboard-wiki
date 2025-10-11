@@ -10,6 +10,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\MateriDatatekController;
+use App\Http\Controllers\MediaKebudayaanController;
 use App\Http\Controllers\KomunitasController;
 use App\Http\Controllers\BannerModalController;
 use App\Http\Controllers\SliderController;
@@ -96,6 +97,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/materi-datatek/{materiDatatek}/edit', [MateriDatatekController::class, 'edit'])->name('materi-datatek.edit');
     Route::put('/materi-datatek/{materiDatatek}', [MateriDatatekController::class, 'update'])->name('materi-datatek.update');
     Route::delete('/materi-datatek/{materiDatatek}', [MateriDatatekController::class, 'destroy'])->name('materi-datatek.destroy');
+
+    // Media Kebudayaan Management
+    Route::get('/media-kebudayaan', [MediaKebudayaanController::class, 'index'])->name('media-kebudayaan.index');
+    Route::get('/media-kebudayaan/create', [MediaKebudayaanController::class, 'create'])->name('media-kebudayaan.create');
+    Route::post('/media-kebudayaan', [MediaKebudayaanController::class, 'store'])->name('media-kebudayaan.store');
+    Route::get('/media-kebudayaan/{mediaKebudayaan}', [MediaKebudayaanController::class, 'show'])->name('media-kebudayaan.show');
+    Route::get('/media-kebudayaan/{mediaKebudayaan}/edit', [MediaKebudayaanController::class, 'edit'])->name('media-kebudayaan.edit');
+    Route::put('/media-kebudayaan/{mediaKebudayaan}', [MediaKebudayaanController::class, 'update'])->name('media-kebudayaan.update');
+    Route::delete('/media-kebudayaan/{mediaKebudayaan}', [MediaKebudayaanController::class, 'destroy'])->name('media-kebudayaan.destroy');
 
     // Banner Modal Management
     Route::get('/banner-modals', [BannerModalController::class, 'index'])->name('banner-modals.index');
