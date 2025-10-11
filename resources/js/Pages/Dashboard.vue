@@ -53,6 +53,10 @@ defineProps({
     events: {
         type: Array,
         default: () => []
+    },
+    recentActivities: {
+        type: Array,
+        default: () => []
     }
 });
 
@@ -81,6 +85,28 @@ const stripHtml = (html) => {
 
 const isPastEvent = (endDate) => {
     return new Date(endDate) < new Date();
+};
+
+const getActivityIcon = (description) => {
+    if (description === 'created') return '✨';
+    if (description === 'updated') return '✏️';
+    if (description === 'deleted') return '🗑️';
+    return '📝';
+};
+
+const getActivityColor = (description) => {
+    if (description === 'created') return 'text-green-600 dark:text-green-400';
+    if (description === 'updated') return 'text-blue-600 dark:text-blue-400';
+    if (description === 'deleted') return 'text-red-600 dark:text-red-400';
+    return 'text-slate-600 dark:text-slate-400';
+};
+
+const getActivityLabel = (description, subjectType) => {
+    const type = subjectType || 'Item';
+    if (description === 'created') return `${type} baru ditambahkan`;
+    if (description === 'updated') return `${type} diperbarui`;
+    if (description === 'deleted') return `${type} dihapus`;
+    return `${type} diubah`;
 };
 
 </script>
@@ -163,8 +189,6 @@ const isPastEvent = (endDate) => {
 
         <!-- Quick Actions -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-
-            
 
             <!-- Event Calendar Section -->
             <div
@@ -290,39 +314,47 @@ const isPastEvent = (endDate) => {
             <div
                 class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
                 <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
-                    <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Aktivitas Terbaru</h3>
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Aktivitas Terbaru</h3>
+                        <a href="/activity-logs"
+                            class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center gap-1">
+                            Lihat Semua
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
                 <div class="p-6">
-                    <div class="space-y-4">
-                        <div class="flex items-start gap-3">
-                            <div class="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-                            <div class="flex-1">
-                                <p class="text-sm font-medium text-slate-900 dark:text-white">Komunitas baru ditambahkan
+                    <div v-if="recentActivities.length > 0" class="space-y-4">
+                        <div v-for="activity in recentActivities" :key="activity.id" class="flex items-start gap-3">
+                            <div class="text-2xl">{{ getActivityIcon(activity.description) }}</div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-slate-900 dark:text-white">
+                                    {{ getActivityLabel(activity.description, activity.subject_type) }}
                                 </p>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Wikimedia Surabaya - 2 jam
-                                    yang lalu
-                                </p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-                            <div class="flex-1">
-                                <p class="text-sm font-medium text-slate-900 dark:text-white">Program pendidikan dimulai
-                                </p>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Wikipedia Goes to Campus - 5
-                                    jam yang
-                                    lalu</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="w-2 h-2 bg-purple-500 rounded-full mt-2"></div>
-                            <div class="flex-1">
-                                <p class="text-sm font-medium text-slate-900 dark:text-white">Data budaya diperbarui</p>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Portal Kebudayaan - 1 hari
-                                    yang lalu
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                    {{ activity.causer_name }} - {{ activity.created_at_human }}
                                 </p>
                             </div>
+                            <div class="flex-shrink-0">
+                                <span :class="['text-xs font-medium', getActivityColor(activity.description)]">
+                                    {{ activity.description }}
+                                </span>
+                            </div>
                         </div>
+                    </div>
+                    <div v-else class="text-center py-8">
+                        <div
+                            class="w-16 h-16 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-8 h-8 text-slate-400 dark:text-slate-500" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Belum ada aktivitas terbaru</p>
                     </div>
                 </div>
             </div>

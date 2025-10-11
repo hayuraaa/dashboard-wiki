@@ -18,14 +18,16 @@ const { can, hasRole } = usePermissions();
 const { t, locale } = useTranslations();
 const { isDark, toggleDarkMode, initTheme } = useDarkMode();
 
-// Language options
+// Language options with enabled status
 const languages = {
-    id: { name: 'Bahasa Indonesia' },
-    en: { name: 'English' }
+    id: { name: 'Bahasa Indonesia', enabled: true },
+    en: { name: 'English', enabled: false }
 };
 
 // Function switch language
-const switchLanguage = (newLocale) => {
+const switchLanguage = (newLocale, enabled) => {
+    if (!enabled) return; // Jika tidak enabled, tidak lakukan apa-apa
+    
     showLanguageDropdown.value = false;
     router.visit(`/language/${newLocale}`, {
         preserveState: false,
@@ -316,16 +318,26 @@ onUnmounted(() => {
 
                             <!-- Language Dropdown Menu -->
                             <div v-if="showLanguageDropdown"
-                                class="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 py-1 z-50">
-                                <button v-for="(lang, code) in languages" :key="code" @click="switchLanguage(code)"
+                                class="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 py-1 z-50">
+                                <button v-for="(lang, code) in languages" :key="code" 
+                                    @click="switchLanguage(code, lang.enabled)"
+                                    :disabled="!lang.enabled"
                                     :class="[
                                         'flex items-center justify-between w-full px-4 py-2.5 text-sm transition-colors',
-                                        locale === code
+                                        !lang.enabled
+                                            ? 'cursor-not-allowed opacity-60'
+                                            : locale === code
                                             ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400'
                                             : 'text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'
                                     ]">
-                                    <span>{{ lang.name }}</span>
-                                    <font-awesome-icon v-if="locale === code" icon="check"
+                                    <div class="flex items-center gap-2">
+                                        <span>{{ lang.name }}</span>
+                                        <span v-if="!lang.enabled" 
+                                            class="text-xs px-2 py-0.5 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded-full font-medium">
+                                            Segera
+                                        </span>
+                                    </div>
+                                    <font-awesome-icon v-if="locale === code && lang.enabled" icon="check"
                                         class="w-4 h-4 text-blue-600 dark:text-blue-400" />
                                 </button>
                             </div>
@@ -348,12 +360,6 @@ onUnmounted(() => {
                             <!-- Dropdown Menu -->
                             <div v-if="showUserDropdown"
                                 class="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 py-1 z-50">
-                                <Link href="/profile"
-                                    class="flex items-center space-x-2 px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-                                <font-awesome-icon icon="user" class="w-4 h-4 text-slate-500 dark:text-slate-400" />
-                                <span>My Profile</span>
-                                </Link>
-                                <hr class="my-1 border-slate-200 dark:border-slate-700">
                                 <Link href="/logout" method="post"
                                     class="flex items-center space-x-2 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
                                 <font-awesome-icon icon="sign-out-alt" class="w-4 h-4" />

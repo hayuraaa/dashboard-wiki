@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Spatie\Activitylog\Models\Activity;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -63,8 +64,27 @@ class DashboardController extends Controller
             \Log::error('Failed to fetch events: ' . $e->getMessage());
         }
 
+        // Ambil aktivitas terbaru (hanya create, update, delete)
+        $recentActivities = Activity::with(['causer', 'subject'])
+            ->whereIn('description', ['created', 'updated', 'deleted'])
+            ->latest()
+            ->take(5)
+            ->get()
+            ->map(function ($activity) {
+                return [
+                    'id' => $activity->id,
+                    'description' => $activity->description,
+                    'subject_type' => $activity->subject_type ? class_basename($activity->subject_type) : null,
+                    'subject_id' => $activity->subject_id,
+                    'causer_name' => $activity->causer?->name ?? 'System',
+                    'created_at' => $activity->created_at,
+                    'created_at_human' => $activity->created_at->diffForHumans(),
+                ];
+            });
+
         return Inertia::render('Dashboard', [
-            'events' => $events
+            'events' => $events,
+            'recentActivities' => $recentActivities
         ]);
     }
 }
